@@ -3,25 +3,23 @@
 build_index.py — Genera el README.md del repositorio Bug-Bounties
 a partir de data/findings.csv.
 
-Uso:
-    python3 scripts/build_index.py
+Por defecto, la columna "Activo" se sanea (se conserva solo el host y se
+enmascara cualquier ruta, query o fragmento) para evitar publicar endpoints
+explotables de programas que aun no han autorizado su divulgacion.
 
-Recomendaciones de divulgación responsable:
-    Por defecto, la columna "Activo" se sanea (se conserva solo el host y se
-    enmascara cualquier ruta, query o fragmento) para evitar publicar
-    endpoints explotables de programas que aún no han autorizado su
-    divulgación. Si un programa ya autorizó la publicación del endpoint
-    completo, se puede cambiar SANITIZE_ASSET = False.
+Las recompensas NO se publican con su monto exacto: se muestran enmascaradas
+como una cantidad de simbolos '$' equivalente al numero de cifras del importe
+(p. ej. 100 -> '$$$', 1000 -> '$$$$').
 """
 
 import csv
 import os
 import unicodedata
-from collections import Counter, OrderedDict
+from collections import Counter
 from datetime import datetime
 
 # ---------------------------------------------------------------------------
-# Configuración
+# Configuracion
 # ---------------------------------------------------------------------------
 SANITIZE_ASSET = True          # Enmascara rutas/query del activo mostrado.
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -37,28 +35,12 @@ TIPO_ORDER = ["Web App", "Source Code", "Otro"]
 # ---------------------------------------------------------------------------
 # Utilidades
 # ---------------------------------------------------------------------------
-def slug(text: str) -> str:
-    """Convierte un texto en un ancla de Markdown ASCII."""
-    norm = unicodedata.normalize("NFKD", text)
-    norm = norm.encode("ascii", "ignore").decode("ascii").lower()
-    out = []
-    for ch in norm:
-        if ch.isalnum():
-            out.append(ch)
-        elif ch in " -_/":
-            out.append("-")
-    anchor = "".join(out)
-    while "--" in anchor:
-        anchor = anchor.replace("--", "-")
-    return anchor.strip("-")
-
-
 def sanitize_asset(asset: str) -> str:
     """Conserva el host y enmascara rutas, query y fragmentos."""
     a = (asset or "").strip()
     if not a:
         return "—"
-    # Recursos de código (paquetes/orgs), no URLs
+    # Recursos de codigo (paquetes/orgs), no URLs
     if not a.startswith("http://") and not a.startswith("https://"):
         return a
     scheme_split = a.split("://", 1)
@@ -87,7 +69,7 @@ def parse_money(dinero: str):
             num += ch
     if not num:
         return 0.0, False
-    # Heurística: si 'X.YYY' con 3 decimales -> separador de miles
+    # Heuristica: si 'X.YYY' con 3 decimales -> separador de miles
     if "." in num:
         entero, frac = num.rsplit(".", 1)
         if len(frac) == 3 and entero.isdigit():
@@ -100,17 +82,25 @@ def parse_money(dinero: str):
         return 0.0, False
 
 
-def fmt_money(value: float) -> str:
-    # Formato internacional: $1,425 (coma como separador de miles)
-    return f"${value:,.0f}"
+def money_marks(amount: float) -> str:
+    """Enmascara el importe: un simbolo '$' por cada cifra.
+
+    100  -> '$$$'   (3 cifras)
+    1000 -> '$$$$'  (4 cifras)
+    """
+    if amount <= 0:
+        return "—"
+    digits = len(str(int(amount)))
+    return "$" * max(digits, 1)
 
 
 def money_cell(dinero: str) -> str:
+    """Celda de recompensa para la tabla de hallazgos."""
     amount, valued = parse_money(dinero)
     if valued and amount > 0:
-        return f"💵 {fmt_money(amount)}"
+        return money_marks(amount)
     d = (dinero or "").strip()
-    if d in ("Reconocimiento",):
+    if d == "Reconocimiento":
         return "🏅 Reconocimiento"
     return "—"
 
@@ -143,6 +133,8 @@ def build_stats(rows):
 
     accepted = by_estado.get("Aceptado", 0)
     dup = by_estado.get("Duplicado", 0)
+    by_vuln = Counter((r["Vulnerabilidad"] or "").strip() for r in rows)
+    companies = set((r["Empresa"] or "").strip() for r in rows)
 
     lines = []
     lines.append("| Métrica | Valor |")
@@ -150,9 +142,8 @@ def build_stats(rows):
     lines.append(f"| Hallazgos totales | **{total}** |")
     lines.append(f"| Aceptados / validados | **{accepted}** |")
     lines.append(f"| Duplicados | {dup} |")
-    lines.append(f"| Recompensas acumuladas | **{fmt_money(earned)} USD** |")
-    lines.append(f"| Programas (empresas) | {len(set((r['Empresa'] or '').strip() for r in rows))} |")
-    by_vuln = Counter((r["Vulnerabilidad"] or "").strip() for r in rows)
+    lines.append(f"| Recompensas acumuladas | **{money_marks(earned)}** |")
+    lines.append(f"| Programas (empresas) | {len(companies)} |")
     lines.append(f"| Clases de vulnerabilidad | {len(by_vuln)} |")
     lines.append("")
     return "\n".join(lines), earned, by_estado, by_prio, by_tipo, by_vuln
@@ -174,14 +165,23 @@ def build_breakdown(title, counter, order=None):
     return "\n".join(lines)
 
 
+def build_top_vulns(by_vuln):
+    lines = ["**Top clases de vulnerabilidad**", "",
+             "| Vulnerabilidad | Nº |", "|:--|--:|"]
+    for name, count in by_vuln.most_common(10):
+        lines.append(f"| {name or '—'} | {count} |")
+    lines.append("")
+    return "\n".join(lines)
+
+
 def build_table(rows):
-    # Orden: severidad y luego fecha descendente
+    # Orden: severidad y luego fecha ascendente
     def sort_key(r):
         p = (r["Prioridad"] or "-").strip()
         pi = PRIORITY_ORDER.index(p) if p in PRIORITY_ORDER else len(PRIORITY_ORDER)
         return (pi, r["Fecha"] or "")
 
-    rows_sorted = sorted(rows, key=sort_key, reverse=False)
+    rows_sorted = sorted(rows, key=sort_key)
 
     lines = []
     lines.append("| # | Hallazgo | Empresa | Programa | Tipo | Vulnerabilidad | Prioridad | Estado | Fecha | Recompensa |")
@@ -224,7 +224,7 @@ def build_by_company(rows):
         badge = f"{len(items)} hallazgo(s)"
         if acc:
             badge += f" · {acc} aceptado(s)"
-        money = f" · {fmt_money(earned)} USD" if earned > 0 else ""
+        money = f" · {money_marks(earned)}" if earned > 0 else ""
         lines.append(f"<details><summary><b>{empresa}</b> — {badge}{money}</summary>")
         lines.append("")
         lines.append("| Hallazgo | Vulnerabilidad | Prioridad | Estado |")
@@ -269,7 +269,8 @@ prioridad, estado y —cuando aplica— la recompensa obtenida.
 
 > ⚠️ **Divulgación responsable.** Los endpoints y detalles sensibles están
 > deliberadamente **saneados** (se conserva el host y se enmascaran rutas,
-> parámetros y payloads). Solo se publican detalles completos cuando el programa
+> parámetros y payloads). Los importes se muestran de forma agregada, sin
+> exponer montos exactos. Solo se publican detalles completos cuando el programa
 > autoriza la divulgación o tras la resolución del reporte. Consulta
 > [`DISCLOSURE.md`](DISCLOSURE.md).
 
@@ -313,16 +314,8 @@ prioridad, estado y —cuando aplica— la recompensa obtenida.
 Bug-Bounties/
 ├── data/
 │   └── findings.csv          # Dataset canónico (una fila por hallazgo)
-├── scripts/
-│   └── build_index.py        # Regenera este README desde el CSV
 ├── DISCLOSURE.md             # Política de divulgación responsable
 └── README.md
-```
-
-Regenerar el índice tras editar el dataset:
-
-```bash
-python3 scripts/build_index.py
 ```
 
 ---
@@ -333,7 +326,7 @@ python3 scripts/build_index.py
 
 [GitHub](https://github.com/kur0s4k1) · [HackTheBox Writeups](https://github.com/kur0s4k1/HackTheBox-Writeups) · [Perfil](https://github.com/kur0s4k1/kur0s4k1)
 
-<sub>Generado automáticamente por <code>scripts/build_index.py</code> · Última actualización: <<DATE>></sub>
+<sub>Última actualización: <<DATE>></sub>
 
 </div>
 """
@@ -367,16 +360,7 @@ def main():
     with open(OUT_PATH, "w", encoding="utf-8") as fh:
         fh.write(out)
     print(f"[+] README generado: {OUT_PATH}")
-    print(f"[+] Hallazgos: {len(rows)} | Recompensas: {fmt_money(earned)} USD")
-
-
-def build_top_vulns(by_vuln):
-    lines = ["**Top clases de vulnerabilidad**", "",
-             "| Vulnerabilidad | Nº |", "|:--|--:|"]
-    for name, count in by_vuln.most_common(10):
-        lines.append(f"| {name or '—'} | {count} |")
-    lines.append("")
-    return "\n".join(lines)
+    print(f"[+] Hallazgos: {len(rows)} | Recompensas: {money_marks(earned)}")
 
 
 if __name__ == "__main__":

@@ -68,7 +68,7 @@
   <!-- badges -->
   <g font-size="16" font-weight="700">
     <rect x="60" y="278" rx="12" width="150" height="30" fill="none" stroke="#2ea44f" stroke-width="1.5"/>
-    <text x="76" y="299" fill="#58f7a1">$1,425 USD</text>
+    <text x="76" y="299" fill="#58f7a1">$$$$</text>
 
     <rect x="224" y="278" rx="12" width="170" height="30" fill="none" stroke="url(#cve)" stroke-width="1.5"/>
     <text x="240" y="299" fill="#79c0ff">3× CVE 2026</text>

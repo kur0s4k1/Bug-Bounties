@@ -24,7 +24,8 @@ prioridad, estado y —cuando aplica— la recompensa obtenida.
 
 > ⚠️ **Divulgación responsable.** Los endpoints y detalles sensibles están
 > deliberadamente **saneados** (se conserva el host y se enmascaran rutas,
-> parámetros y payloads). Solo se publican detalles completos cuando el programa
+> parámetros y payloads). Los importes se muestran de forma agregada, sin
+> exponer montos exactos. Solo se publican detalles completos cuando el programa
 > autoriza la divulgación o tras la resolución del reporte. Consulta
 > [`DISCLOSURE.md`](DISCLOSURE.md).
 
@@ -37,7 +38,7 @@ prioridad, estado y —cuando aplica— la recompensa obtenida.
 | Hallazgos totales | **34** |
 | Aceptados / validados | **13** |
 | Duplicados | 17 |
-| Recompensas acumuladas | **$1,425 USD** |
+| Recompensas acumuladas | **$$$$** |
 | Programas (empresas) | 18 |
 | Clases de vulnerabilidad | 12 |
 
@@ -110,7 +111,7 @@ prioridad, estado y —cuando aplica— la recompensa obtenida.
 | 9 | Unauthenticated Stacked Blind SQL Injection <br>`events.hfc.harvard.edu/…` | HARVARD UNIVERSITY | Bugcrowd | Web App | Blind SQL Injection | P1 | En analisis | 21 de julio de 2026 | 🏅 Reconocimiento |
 | 10 | Flask session forgery -> SQL Scheduler Injection -> RCE <br>`redcct.cl` | REDCCT METRO | Ninguno | Web App | Remote Code Execution | P1 | Aceptado | 23 de julio de 2026 | — |
 | 11 | Unverified Teacher Self-Promotion to Verified Instructor via International Opt-In <br>`adhoc-bugcrowd-studio.cdn-code.org` | CODE.ORG | Bugcrowd | Web App | Privilege Escalation | P2 | Duplicado | 14 de junio de 2026 | — |
-| 12 | Teacher Tools / IDOR in Rubric Teacher Evaluation endpoints allows not-in-section student feedback submission <br>`adhoc-bugcrowd-studio.cdn-code.org` | CODE.ORG | Bugcrowd | Web App | IDOR | P2 | Aceptado | 14 de mayo de 2026 | 💵 $1,000 |
+| 12 | Teacher Tools / IDOR in Rubric Teacher Evaluation endpoints allows not-in-section student feedback submission <br>`adhoc-bugcrowd-studio.cdn-code.org` | CODE.ORG | Bugcrowd | Web App | IDOR | P2 | Aceptado | 14 de mayo de 2026 | $$$$ |
 | 13 | Karapace Primary Election Poisoning Enables Credential Theft <br>`github.com/…` | Aiven Managed Bug Bounty | Bugcrowd | Source Code | Server-Side Request Forgery (SSRF) | P2 | Duplicado | 16 de agosto de 2026 | — |
 | 14 | Karapace TLS Verification Bypass Enables Admin Credential Theft and Persistent Schema Poisoning <br>`github.com/…` | Aiven Managed Bug Bounty | Bugcrowd | Source Code | Privilege Escalation | P2 | Duplicado | 16 de agosto de 2026 | — |
 | 15 | Unauthenticated REST API disclosure of bbPress Hidden-forum topics and replies <br>`bbPress Core` | Wordpress Core | HackerOne | Source Code | Broken Access Control | P2 | Duplicado | 17 de agosto de 2026 | — |
@@ -124,11 +125,11 @@ prioridad, estado y —cuando aplica— la recompensa obtenida.
 | 23 | Remote Token Header Bypasses @vercel/passport Identity Verification <br>`vercel/passport` | Vercel Open Source | HackerOne | Source Code | Broken Access Control | P2 | Duplicado | 21 de agosto de 2026 | — |
 | 24 | Unauthenticated Access to Sensitive WHO AFRO eSurv API Data <br>`esurv.afro.who.int` | OMS | VDP Directo | Web App | PII Leakage/Exposure | P2 | Aceptado | 26 de junio de 2026 | 🏅 Reconocimiento |
 | 25 | Unauthenticated member PII disclosure via the mention autocomplete endpoint <br>`mitgestalten.wien.gv.at/…` | City of Vienna | Bugcrowd | Web App | PII Leakage/Exposure | P2 | Duplicado | 8 de agosto de 2026 | — |
-| 26 | Cross-tenant authorization bypass in Atlassian Admin via client-controlled directoryIds inside cursor <br>`admin.atlassian.com/…` | ATLASSIAN | Bugcrowd | Web App | IDOR | P3 | Aceptado | 23 de junio de 2026 | 💵 $325 |
+| 26 | Cross-tenant authorization bypass in Atlassian Admin via client-controlled directoryIds inside cursor <br>`admin.atlassian.com/…` | ATLASSIAN | Bugcrowd | Web App | IDOR | P3 | Aceptado | 23 de junio de 2026 | $$$ |
 | 27 | Unauthenticated GraphQL access exposes merchant invoice history <br>`shop.ifood.com.br/…` | iFOOD | Bugcrowd | Web App | Broken Access Control | P3 | Duplicado | 24 de abril de 2026 | — |
 | 28 | Subdomain Takeover via S3 Bucket Claim <br>`origin-nonprod-save-mod.uscis.dhs.gov/…` | DHS GOV | Bugcrowd | Web App | Subdomain Takeover | P3 | Aceptado | 30 de abril de 2026 | 🏅 Reconocimiento |
 | 29 | Cross-Teacher Roster Modification Bypass Allows Forced Enrollment into Restricted Sections <br>`studio.code.org/…` | CODE.ORG | Bugcrowd | Web App | IDOR | P3 | Duplicado | 30 de junio de 2026 | — |
-| 30 | Broken Access Control / Unauthenticated Sensitive Data Exposure <br>`portalv2.lh360.com/…` | INTERNET BRANDS | Bugcrowd | Web App | PII Leakage/Exposure | P3 | Aceptado | 5 de mayo de 2026 | 💵 $100 |
+| 30 | Broken Access Control / Unauthenticated Sensitive Data Exposure <br>`portalv2.lh360.com/…` | INTERNET BRANDS | Bugcrowd | Web App | PII Leakage/Exposure | P3 | Aceptado | 5 de mayo de 2026 | $$$ |
 | 31 | Exposed Spring Boot Actuator Endpoints and Internal Infrastructure Disclosure <br>`fts.tsa.dhs.gov/…` | DHS GOV | Bugcrowd | Web App | Sensitive Data Exposure | P4 | Aceptado | 4 de marzo de 2026 | 🏅 Reconocimiento |
 | 32 | Unauthenticated CRUD access to persistent project storage via DatablockStorageController <br>`adhoc-bugcrowd-studio.cdn-code.org/…` | CODE.ORG | Bugcrowd | Web App | IDOR | P5 | No Aplica | 14 de mayo de 2026 | — |
 | 33 | Unauthenticated auth bypass allows ePetition creation <br>`epet-dev.cbp.dhs.gov/…` | DHS GOV | Bugcrowd | Web App | Broken Access Control | P5 | Aceptado | 24 de abril de 2026 | 🏅 Reconocimiento |
@@ -139,7 +140,7 @@ prioridad, estado y —cuando aplica— la recompensa obtenida.
 
 ## 🏢 Por programa / empresa
 
-<details><summary><b>CODE.ORG</b> — 5 hallazgo(s) · 1 aceptado(s) · $1,000 USD</summary>
+<details><summary><b>CODE.ORG</b> — 5 hallazgo(s) · 1 aceptado(s) · $$$$</summary>
 
 | Hallazgo | Vulnerabilidad | Prioridad | Estado |
 |:--|:--|:--:|:--:|
@@ -151,7 +152,7 @@ prioridad, estado y —cuando aplica— la recompensa obtenida.
 
 </details>
 
-<details><summary><b>INTERNET BRANDS</b> — 5 hallazgo(s) · 2 aceptado(s) · $100 USD</summary>
+<details><summary><b>INTERNET BRANDS</b> — 5 hallazgo(s) · 2 aceptado(s) · $$$</summary>
 
 | Hallazgo | Vulnerabilidad | Prioridad | Estado |
 |:--|:--|:--:|:--:|
@@ -203,7 +204,7 @@ prioridad, estado y —cuando aplica— la recompensa obtenida.
 
 </details>
 
-<details><summary><b>ATLASSIAN</b> — 1 hallazgo(s) · 1 aceptado(s) · $325 USD</summary>
+<details><summary><b>ATLASSIAN</b> — 1 hallazgo(s) · 1 aceptado(s) · $$$</summary>
 
 | Hallazgo | Vulnerabilidad | Prioridad | Estado |
 |:--|:--|:--:|:--:|
@@ -308,16 +309,8 @@ prioridad, estado y —cuando aplica— la recompensa obtenida.
 Bug-Bounties/
 ├── data/
 │   └── findings.csv          # Dataset canónico (una fila por hallazgo)
-├── scripts/
-│   └── build_index.py        # Regenera este README desde el CSV
 ├── DISCLOSURE.md             # Política de divulgación responsable
 └── README.md
-```
-
-Regenerar el índice tras editar el dataset:
-
-```bash
-python3 scripts/build_index.py
 ```
 
 ---
@@ -328,6 +321,6 @@ python3 scripts/build_index.py
 
 [GitHub](https://github.com/kur0s4k1) · [HackTheBox Writeups](https://github.com/kur0s4k1/HackTheBox-Writeups) · [Perfil](https://github.com/kur0s4k1/kur0s4k1)
 
-<sub>Generado automáticamente por <code>scripts/build_index.py</code> · Última actualización: 10/10/2026</sub>
+<sub>Última actualización: 10/10/2026</sub>
 
 </div>
