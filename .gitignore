@@ -1,0 +1,18 @@
+# Secretos y datos sensibles — NUNCA subir
+*.env
+.env*
+secrets/
+private/
+*.pem
+*.key
+*.ovpn
+*_raw.csv
+raw/
+tokens.txt
+
+# Temporales
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+*.log
