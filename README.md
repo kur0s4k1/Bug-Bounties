@@ -5,11 +5,10 @@
 # 🎯 Bug Bounties — Vulnerability Research Portfolio
 
 **Hallazgos reales de seguridad reportados a programas de Bugcrowd, HackerOne y VDP directos.**
-Reporte responsable · CVEs · Hall of Fame · Recompensas.
+Reporte responsable · Validación · Recompensas.
 
 [![Programs](https://img.shields.io/badge/Programas-Bugcrowd%20%7C%20HackerOne%20%7C%20VDP-2ea44f?style=for-the-badge)](https://github.com/kur0s4k1)
-[![Hall of Fame](https://img.shields.io/badge/Hall%20of%20Fame-NASA%20%7C%20WHO%20%7C%20DHS%20%7C%20Harvard-1f6feb?style=for-the-badge)](https://github.com/kur0s4k1)
-[![Writeups](https://img.shields.io/badge/Writeups-HackTheBox-9cf?style=for-the-badge&logo=hackthebox&logoColor=white)](https://github.com/kur0s4k1/HackTheBox-Writeups)
+[![Disclosure](https://img.shields.io/badge/Divulgaci%C3%B3n-Responsable-1f6feb?style=for-the-badge)](DISCLOSURE.md)
 
 </div>
 
@@ -96,8 +95,7 @@ prioridad, estado y —cuando aplica— la recompensa obtenida.
 
 ## 📁 Hallazgos
 
-> Tabla resumida. La leyenda `host` indica el activo saneado. El detalle
-> técnico cuando está autorizado vive en [`Findings/`](Findings/).
+> Tabla resumida. La leyenda `host` indica el activo saneado.
 
 | # | Hallazgo | Empresa | Programa | Tipo | Vulnerabilidad | Prioridad | Estado | Fecha | Recompensa |
 |--:|:--|:--|:--|:--|:--|:--:|:--:|:--:|:--|
@@ -310,8 +308,6 @@ prioridad, estado y —cuando aplica— la recompensa obtenida.
 Bug-Bounties/
 ├── data/
 │   └── findings.csv          # Dataset canónico (una fila por hallazgo)
-├── Findings/
-│   └── TEMPLATE/             # Plantilla de writeup
 ├── scripts/
 │   └── build_index.py        # Regenera este README desde el CSV
 ├── DISCLOSURE.md             # Política de divulgación responsable
@@ -323,17 +319,6 @@ Regenerar el índice tras editar el dataset:
 ```bash
 python3 scripts/build_index.py
 ```
-
----
-
-## 🔐 Timeline de CVEs y Hall of Fame
-
-| Reconocimiento | Detalle |
-|:--|:--|
-| CVE-2026-48770 | Asignado |
-| CVE-2026-46710 | Asignado |
-| CVE-2026-71858 | Asignado |
-| NASA · WHO · DHS · Harvard · Drexel · HPE | Hall of Fame |
 
 ---
 
